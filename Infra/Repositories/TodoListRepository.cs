@@ -1,18 +1,49 @@
 ﻿using System;
+using TodoListAPI.Domain.Contracts;
+using TodoListAPI.Domain.Entities;
+
 namespace TodoListAPI.Infra
 {
-	public class ToDoRepository
-	{
-		private List<object> _todoList = new List<object>();
+	public class TodoListRepository: ITodoListRepository
+    {
+		private List<TodoEntity> _todoList = new List<TodoEntity>();
 
-		public ToDoRepository()
-		{
-		}
+        public TodoEntity AddUserTodoAsync(TodoEntity todoData)
+        {
+            _todoList.Add(todoData);
 
-		public object GetTodo() 
-		{
-			return new Object();
-		}
-	}
+            return todoData;
+        }
+
+        public List<TodoEntity> GetAllUserTodoAsync(string userIdToCompare)
+        {
+            return _todoList.FindAll(todo => todo.UserId.Equals(userIdToCompare));
+        }
+
+        public Boolean RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription)
+        {
+            var elementToRemove = _todoList.Find(todo => todo.Description.Equals(todoDescription) && todo.UserId.Equals(userIdToCompare));
+
+            if (elementToRemove is not null) {
+                return _todoList.Remove(elementToRemove);
+            }
+
+            return false;
+        }
+
+        public Boolean UpdateUserTodoAsync(TodoEntity todoData)
+        {
+            var indexToUpdate = _todoList.FindIndex(todo => todo.Id.Equals(todoData.Id));
+                
+            if (indexToUpdate >= 0)
+            {
+                _todoList[indexToUpdate] = todoData;
+                return true;
+            }
+
+
+            return false;
+        }
+    }
 }
 
