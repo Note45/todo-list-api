@@ -1,10 +1,10 @@
 ﻿using System;
-using TodoListAPI.Domain.Contracts;
 using TodoListAPI.Domain.Entities;
+using TodoListAPI.Domain.Repositories;
 
 namespace TodoListAPI.Infra
 {
-	public class TodoListRepository: ITodoListRepository
+    public class TodoListRepository: ITodoListRepository
     {
 		private List<TodoEntity> _todoList = new List<TodoEntity>();
 

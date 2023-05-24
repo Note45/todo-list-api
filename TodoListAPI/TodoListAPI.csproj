@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infra\" />
-    <Folder Include="Application\" />
     <Folder Include="Infra\Repositories\" />
     <Folder Include="Infra\Database\" />
     <Folder Include="Infra\Database\Models\" />
