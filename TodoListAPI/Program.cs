@@ -1,6 +1,13 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using TodoListAPI.Application.Services;
+using TodoListAPI.Domain.Repositories;
+using TodoListAPI.Domain.Services;
+using TodoListAPI.Infra;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<ITodoListRepository, TodoListRepository>();
+builder.Services.AddSingleton<ITodoListService, TodoListService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
