@@ -18,14 +18,16 @@ public class TodoListController : ControllerBase
         _todoListService = todoListService;
     }
 
-    [HttpPost(Name = "todoList/add")]
-    public TodoEntity Post([FromBody] CreateTodoCommand command)
+    [HttpPost]
+    [Route("add")]
+    public TodoEntity PostTodo([FromBody] CreateTodoCommand command)
     {
         return _todoListService.AddUserTodoAsync((TodoEntity)command);
     }
 
-    [HttpGet(Name = "todoList/{userId}/get")]
-    public IEnumerable<TodoEntity> Get(string userId)
+    [HttpGet]
+    [Route("{userId}")]
+    public IEnumerable<TodoEntity> GetTodoList(string userId)
     {
         return _todoListService.GetAllUserTodoAsync(userId);
     }
