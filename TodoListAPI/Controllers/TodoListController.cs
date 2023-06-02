@@ -31,5 +31,19 @@ public class TodoListController : ControllerBase
     {
         return _todoListService.GetAllUserTodoAsync(userId);
     }
+
+    [HttpPatch]
+    [Route("update")]
+    public bool UpdateTodo([FromBody] UpdateTodoCommand command)
+    {
+        return _todoListService.UpdateUserTodoAsync((TodoEntity)command);
+    }
+
+    [HttpPatch]
+    [Route("{userId}/{todoId}/delete")]
+    public bool DeleteTodo(string userId, string todoId)
+    {
+        return _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
+    }
 }
 
