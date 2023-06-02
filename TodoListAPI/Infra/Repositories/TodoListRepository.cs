@@ -20,9 +20,9 @@ namespace TodoListAPI.Infra
             return _todoList.FindAll(todo => todo.UserId.Equals(userIdToCompare));
         }
 
-        public Boolean RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription)
+        public Boolean RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoId)
         {
-            var elementToRemove = _todoList.Find(todo => todo.Description.Equals(todoDescription) && todo.UserId.Equals(userIdToCompare));
+            var elementToRemove = _todoList.Find(todo => todo.Id.Equals(todoId) && todo.UserId.Equals(userIdToCompare));
 
             if (elementToRemove is not null) {
                 return _todoList.Remove(elementToRemove);

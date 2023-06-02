@@ -1,4 +1,5 @@
-﻿using TodoListAPI.Domain.Entities;
+﻿using TodoListAPI.Domain.Command;
+using TodoListAPI.Domain.Entities;
 
 namespace TodoListAPI.Domain.Services
 {
@@ -6,7 +7,7 @@ namespace TodoListAPI.Domain.Services
     {
         List<TodoEntity> GetAllUserTodoAsync(string UserIdToCompare);
         TodoEntity AddUserTodoAsync(TodoEntity todoData);
-        bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription);
+        bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoId);
         bool UpdateUserTodoAsync(TodoEntity todoData);
     }
 }

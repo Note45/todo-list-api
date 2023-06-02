@@ -25,7 +25,7 @@ namespace TodoListAPI.Test.Infra.Repository
         }
 
         [Fact(DisplayName = "Should be able to delete a Todo to the TodoList")]
-        public void ShouldReturnTheTodoDataWhenRemoveUserTodoByDescriptionAsync()
+        public void ShouldReturnTheTodoDataWhenRemoveUserTodoByIdAsync()
         {
             TodoListRepository todoListRepository = new();
             TodoListService todoListService = new(todoListRepository);
@@ -48,7 +48,7 @@ namespace TodoListAPI.Test.Infra.Repository
             todoListRepository.AddUserTodoAsync(todoToAdd);
             todoListRepository.AddUserTodoAsync(todoToAdd1);
 
-            var returnDeleteMethod = todoListService.RemoveUserTodoByDescriptionAsync(todoToAdd1.UserId, todoToAdd1.Description);
+            var returnDeleteMethod = todoListService.RemoveUserTodoByDescriptionAsync(todoToAdd1.UserId, todoToAdd1.Id);
 
             var todoQuantity = todoListRepository.GetAllUserTodoAsync(todoToAdd1.UserId);
 

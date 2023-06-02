@@ -22,9 +22,9 @@ namespace TodoListAPI.Application.Services
             return _todoListRepository.GetAllUserTodoAsync(UserIdToCompare);
         }
 
-        public bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription)
+        public bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoId)
         {
-            return _todoListRepository.RemoveUserTodoByDescriptionAsync(userIdToCompare, todoDescription);
+            return _todoListRepository.RemoveUserTodoByDescriptionAsync(userIdToCompare, todoId);
         }
 
         public bool UpdateUserTodoAsync(TodoEntity todoData)
