@@ -37,7 +37,7 @@ namespace TodoListAPI.Infra
                 
             if (indexToUpdate >= 0)
             {
-                _todoList[indexToUpdate] = todoData;
+                _todoList[indexToUpdate].Description = todoData.Description;
                 return true;
             }
 
