@@ -20,11 +20,17 @@
     <None Remove="Infra\Repositories\" />
     <None Remove="Infra\Database\" />
     <None Remove="Infra\Database\Models\" />
+    <None Remove="Domain\Interfaces\" />
+    <None Remove="Infra\Configs\" />
+    <None Remove="Domain\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infra\" />
     <Folder Include="Infra\Repositories\" />
     <Folder Include="Infra\Database\" />
     <Folder Include="Infra\Database\Models\" />
+    <Folder Include="Domain\Interfaces\" />
+    <Folder Include="Infra\Configs\" />
+    <Folder Include="Domain\Helpers\" />
   </ItemGroup>
 </Project>
