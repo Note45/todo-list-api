@@ -10,9 +10,9 @@ namespace TodoListAPI.Domain.Helpers
         private const int SaltSize = 16; // 128 bit 
         private const int KeySize = 32; // 256 bit
 
-        public PasswordHasher(IOptions<HashingOptions> options)
+        public PasswordHasher(IOptions<HashingOptions>? options = null)
         {
-            Options = options.Value;
+            Options = options is not null ? options.Value : new HashingOptions();
         }
 
         private HashingOptions Options { get; }

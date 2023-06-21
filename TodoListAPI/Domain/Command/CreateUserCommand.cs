@@ -1,5 +1,8 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.Extensions.Options;
 using TodoListAPI.Domain.Entities;
+using TodoListAPI.Domain.Helpers;
+using TodoListAPI.Infra.Configs;
 
 namespace TodoListAPI.Domain.Command
 {
@@ -16,11 +19,13 @@ namespace TodoListAPI.Domain.Command
 
         public static explicit operator UserEntity(CreateUserCommand command)
         {
+            PasswordHasher passwordHasher = new();
+
             return new UserEntity()
             {
                 Id = command.Id,
                 Name = command.Name,
-                Password = command.Password,
+                Password = passwordHasher.Hash(command.Password),
                 CreatedAt = command.CreatedAt,
                 UpdatedAt = command.UpdatedAt,
             };
