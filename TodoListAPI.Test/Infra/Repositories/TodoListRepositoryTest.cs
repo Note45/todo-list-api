@@ -102,7 +102,10 @@ namespace TodoListAPI.Test.Infra.Repository
             var returnUpdateMethod = todoListRepository.UpdateUserTodoAsync(todoUpdated);
             var todoSaved = todoListRepository.GetAllUserTodoAsync(todoToAdd.UserId)[0];
 
-            Assert.Equal(todoUpdated, todoSaved);
+            Assert.Equal(todoUpdated.Id, todoSaved.Id);
+            Assert.Equal(todoUpdated.UserId, todoSaved.UserId);
+            Assert.Equal(todoUpdated.Description, todoSaved.Description);
+            Assert.Equal(todoUpdated.CreatedAt, todoSaved.CreatedAt);
             Assert.True(returnUpdateMethod);
         }
     }

@@ -48,7 +48,7 @@ namespace TodoListAPI.Test.Infra.Repository
             todoListRepository.AddUserTodoAsync(todoToAdd);
             todoListRepository.AddUserTodoAsync(todoToAdd1);
 
-            var returnDeleteMethod = todoListService.RemoveUserTodoByDescriptionAsync(todoToAdd1.UserId, todoToAdd1.Id);
+            var returnDeleteMethod = todoListService.RemoveUserTodoByDescriptionAsync(todoToAdd1.UserId, todoToAdd1.Description);
 
             var todoQuantity = todoListRepository.GetAllUserTodoAsync(todoToAdd1.UserId);
 
@@ -112,7 +112,10 @@ namespace TodoListAPI.Test.Infra.Repository
 
             var todoSaved = todoListRepository.GetAllUserTodoAsync(todoToAdd.UserId)[0];
 
-            Assert.Equal(todoUpdated, todoSaved);
+            Assert.Equal(todoUpdated.Id, todoSaved.Id);
+            Assert.Equal(todoUpdated.UserId, todoSaved.UserId);
+            Assert.Equal(todoUpdated.Description, todoSaved.Description);
+            Assert.Equal(todoUpdated.CreatedAt, todoSaved.CreatedAt);
             Assert.True(returnUpdateMethod);
         }
     }
