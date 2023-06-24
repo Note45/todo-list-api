@@ -51,6 +51,35 @@ namespace TodoListAPI.Test.Infra.Repository
             Assert.True(returnDeleteMethod);
         }
 
+        [Fact(DisplayName = "Should be able to delete a Todo by the Todo Id")]
+        public void ShouldReturnTheTodoDataWhenRemoveUserTodoByTodoIdAsync()
+        {
+            TodoListRepository todoListRepository = new TodoListRepository();
+            TodoEntity todoToAdd = new TodoEntity()
+            {
+                Id = "test-id",
+                UserId = "test-userId",
+                Description = "Todo description test",
+                CreatedAt = new DateTime().ToString()
+            };
+            TodoEntity todoToAdd1 = new TodoEntity()
+            {
+                Id = "test-id-1",
+                UserId = "test-userId",
+                Description = "Todo description test 1",
+                CreatedAt = new DateTime().ToString()
+            };
+
+
+            todoListRepository.AddUserTodoAsync(todoToAdd);
+            todoListRepository.AddUserTodoAsync(todoToAdd1);
+            var returnDeleteMethod = todoListRepository.RemoveUserTodoByTodoIdAsync(todoToAdd1.UserId, todoToAdd1.Id);
+            var todoQuantity = todoListRepository.GetAllUserTodoAsync(todoToAdd1.UserId);
+
+            Assert.Single(todoQuantity);
+            Assert.True(returnDeleteMethod);
+        }
+
         [Fact(DisplayName = "Should be able to list all Todo from the user")]
         public void ShouldListAllTodoDataWhenGetAllUserTodoAsync()
         {

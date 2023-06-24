@@ -31,6 +31,18 @@ namespace TodoListAPI.Infra
             return false;
         }
 
+        public Boolean RemoveUserTodoByTodoIdAsync(string userIdToCompare, string todoId)
+        {
+            var elementToRemove = _todoList.Find(todo => todo.Id.Equals(todoId) && todo.UserId.Equals(userIdToCompare));
+
+            if (elementToRemove is not null)
+            {
+                return _todoList.Remove(elementToRemove);
+            }
+
+            return false;
+        }
+
         public Boolean UpdateUserTodoAsync(TodoEntity todoData)
         {
             var indexToUpdate = _todoList.FindIndex(todo => todo.Id.Equals(todoData.Id));

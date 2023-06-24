@@ -6,7 +6,8 @@ namespace TodoListAPI.Domain.Repositories
     {
         List<TodoEntity> GetAllUserTodoAsync(string UserIdToCompare);
         TodoEntity AddUserTodoAsync(TodoEntity todoData);
-        bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoId);
+        bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription);
+        bool RemoveUserTodoByTodoIdAsync(string userIdToCompare, string todoId);
         bool UpdateUserTodoAsync(TodoEntity todoData);
     }
 }
