@@ -1,11 +1,16 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TodoListAPI.Application.Services;
 using TodoListAPI.Domain.Helpers;
 using TodoListAPI.Domain.Repositories;
 using TodoListAPI.Domain.Services;
 using TodoListAPI.Infra;
+using TodoListAPI.Infra.Database.Config;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add database
+builder.Services.AddSingleton<DbContext, DataContext>();
 
 // Add services to the container.
 builder.Services.AddSingleton<ITodoListRepository, TodoListRepository>();

@@ -10,6 +10,12 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
@@ -25,9 +31,7 @@
     <None Remove="Domain\Helpers\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Infra\" />
     <Folder Include="Infra\Repositories\" />
-    <Folder Include="Infra\Database\" />
     <Folder Include="Infra\Database\Models\" />
     <Folder Include="Domain\Interfaces\" />
     <Folder Include="Infra\Configs\" />
