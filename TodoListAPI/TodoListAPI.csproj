@@ -35,5 +35,6 @@
     <Folder Include="Infra\Database\Models\" />
     <Folder Include="Domain\Interfaces\" />
     <Folder Include="Infra\Configs\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

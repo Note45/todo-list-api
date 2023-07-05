@@ -1,14 +1,39 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+
 namespace TodoListAPI.Infra.Database.Models
 {
 	public class UserData
 	{
+        [Required]
+        [Display(Name = "Id")]
+        [StringLength(36)]
         public string Id { get; set; }
+
+        [Required]
+        [Display(Name = "Name")]
+        [StringLength(200)]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [StringLength(200)]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Password")]
         public string Password { get; set; }
-        public string CreatedAt { get; set; }
-        public string UpdatedAt { get; set; }
+
+        [Required]
+        [Display(Name="CreatedAt")]
+        [DataType(DataType.Date)]
+        public DateTime CreatedAt { get; set; }
+
+        [Required]
+        [Display(Name = "UpdatedAt")]
+        [DataType(DataType.Date)]
+        public DateTime UpdatedAt { get; set; }
     }
 }
 
