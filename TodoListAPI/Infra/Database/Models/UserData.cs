@@ -1,14 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 namespace TodoListAPI.Infra.Database.Models
 {
-	public class UserData
-	{
+    public class UserData
+    {
         [Required]
         [Display(Name = "Id")]
         [StringLength(36)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
 
         [Required]
@@ -26,7 +28,7 @@ namespace TodoListAPI.Infra.Database.Models
         public string Password { get; set; }
 
         [Required]
-        [Display(Name="CreatedAt")]
+        [Display(Name = "CreatedAt")]
         [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; }
 
@@ -34,6 +36,8 @@ namespace TodoListAPI.Infra.Database.Models
         [Display(Name = "UpdatedAt")]
         [DataType(DataType.Date)]
         public DateTime UpdatedAt { get; set; }
+
+        public ICollection<TodoData>? TodoList { get; set; }
     }
 }
 

@@ -1,21 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 namespace TodoListAPI.Infra.Database.Models
 {
-	public class TodoData
-	{
+    public class TodoData
+    {
         [Required]
         [Display(Name = "Id")]
         [StringLength(36)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
 
         [Required]
         [Display(Name = "UserId")]
         [StringLength(36)]
-        [Key]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         [Required]
         [Display(Name = "Description")]

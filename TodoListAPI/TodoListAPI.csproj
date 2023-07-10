@@ -35,6 +35,10 @@
     <Folder Include="Infra\Database\Models\" />
     <Folder Include="Domain\Interfaces\" />
     <Folder Include="Infra\Configs\" />
-    <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20230710120715_InitialCreate.cs" />
+    <Compile Remove="Migrations\20230710120715_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\DataContextModelSnapshot.cs" />
   </ItemGroup>
 </Project>
