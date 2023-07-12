@@ -37,6 +37,7 @@ namespace TodoListAPI.Infra.Database.Models
         [DataType(DataType.Date)]
         public DateTime UpdatedAt { get; set; }
 
+        [ForeignKey("UserId")]
         public ICollection<TodoData>? TodoList { get; set; }
     }
 }

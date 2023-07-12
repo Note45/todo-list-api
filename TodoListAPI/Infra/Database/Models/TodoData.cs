@@ -17,7 +17,8 @@ namespace TodoListAPI.Infra.Database.Models
         [Required]
         [Display(Name = "UserId")]
         [StringLength(36)]
-        public string? UserId { get; set; }
+        [ForeignKey("UserData")]
+        public string UserId { get; set; }
 
         [Required]
         [Display(Name = "Description")]

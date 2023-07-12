@@ -12,7 +12,7 @@ using TodoListAPI.Infra.Database.Config;
 namespace TodoListAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230710124419_InitialCreate")]
+    [Migration("20230712161242_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,9 +39,6 @@ namespace TodoListAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("UserDataId")
-                        .HasColumnType("character varying(36)");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(36)
@@ -49,7 +46,7 @@ namespace TodoListAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserDataId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Todos", (string)null);
                 });
@@ -89,7 +86,9 @@ namespace TodoListAPI.Migrations
                 {
                     b.HasOne("TodoListAPI.Infra.Database.Models.UserData", null)
                         .WithMany("TodoList")
-                        .HasForeignKey("UserDataId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TodoListAPI.Infra.Database.Models.UserData", b =>
