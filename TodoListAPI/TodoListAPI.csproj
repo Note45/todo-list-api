@@ -29,12 +29,14 @@
     <None Remove="Domain\Interfaces\" />
     <None Remove="Infra\Configs\" />
     <None Remove="Domain\Helpers\" />
+    <None Remove="Domain\Mappers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infra\Repositories\" />
     <Folder Include="Infra\Database\Models\" />
     <Folder Include="Domain\Interfaces\" />
     <Folder Include="Infra\Configs\" />
+    <Folder Include="Domain\Mappers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20230710120715_InitialCreate.cs" />

@@ -1,37 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using TodoListAPI.Domain.Entities;
+using TodoListAPI.Domain.Mappers;
 using TodoListAPI.Domain.Repositories;
+using TodoListAPI.Infra.Database.Config;
+using TodoListAPI.Infra.Database.Models;
 
 namespace TodoListAPI.Infra
 {
-    public class TodoListRepository: ITodoListRepository
+    public class TodoListRepository : ITodoListRepository
     {
-		private List<TodoEntity> _todoList = new List<TodoEntity>();
+        private readonly DataContext _db;
 
-        public TodoEntity AddUserTodoAsync(TodoEntity todoData)
+        public TodoListRepository(DataContext dbContext)
         {
-            _todoList.Add(todoData);
+            _db = dbContext ?? throw new Exception();
+        }
+
+        public async Task<TodoEntity> AddUserTodoAsync(TodoEntity todoData)
+        {
+            await _db.AddAsync(todoData);
 
             return todoData;
         }
 
-        public List<TodoEntity> GetAllUserTodoAsync(string userIdToCompare)
+        public async Task<List<TodoEntity>> GetAllUserTodoAsync(string userIdToCompare)
         {
-            return _todoList.FindAll(todo => todo.UserId.Equals(userIdToCompare));
+            List<TodoData> todoListSaved = await _db.TodoList.Where(todo => todo.UserId == userIdToCompare).ToListAsync();
+
+            List<TodoEntity> fomatedTodoList = new List<TodoEntity>();
+            foreach (TodoData todo in todoListSaved)
+            {
+                var todoFormated = TodoMapper.ToEntity(todo);
+                fomatedTodoList.Add(todoFormated);
+            }
+
+            return fomatedTodoList;
         }
 
-        public Boolean RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription)
+        public async Task<bool> RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription)
         {
             var elementToRemove = _todoList.Find(todo => todo.Description.Equals(todoDescription) && todo.UserId.Equals(userIdToCompare));
 
-            if (elementToRemove is not null) {
+            if (elementToRemove is not null)
+            {
                 return _todoList.Remove(elementToRemove);
             }
 
             return false;
         }
 
-        public Boolean RemoveUserTodoByTodoIdAsync(string userIdToCompare, string todoId)
+        public async Task<bool> RemoveUserTodoByTodoIdAsync(string userIdToCompare, string todoId)
         {
             var elementToRemove = _todoList.Find(todo => todo.Id.Equals(todoId) && todo.UserId.Equals(userIdToCompare));
 
@@ -43,10 +63,10 @@ namespace TodoListAPI.Infra
             return false;
         }
 
-        public Boolean UpdateUserTodoAsync(TodoEntity todoData)
+        public async Task<bool> UpdateUserTodoAsync(TodoEntity todoData)
         {
             var indexToUpdate = _todoList.FindIndex(todo => todo.Id.Equals(todoData.Id));
-                
+
             if (indexToUpdate >= 0)
             {
                 _todoList[indexToUpdate].Description = todoData.Description;
