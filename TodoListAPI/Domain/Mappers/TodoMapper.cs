@@ -19,6 +19,18 @@ namespace TodoListAPI.Domain.Mappers
             return todoFormated;
         }
 
+        public static TodoData ToData(TodoEntity todoEntity)
+        {
+            TodoData todoFormated = new()
+            {
+                Id = todoEntity.Id,
+                UserId = todoEntity.UserId,
+                Description = todoEntity.Description,
+                CreatedAt = DateTime.Parse(todoEntity.CreatedAt),
+            };
+
+            return todoFormated;
+        }
     }
 }
 
