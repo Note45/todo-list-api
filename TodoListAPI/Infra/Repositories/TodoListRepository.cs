@@ -41,11 +41,13 @@ namespace TodoListAPI.Infra
 
         public async Task<bool> RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoDescription)
         {
-            var elementToRemove = _todoList.Find(todo => todo.Description.Equals(todoDescription) && todo.UserId.Equals(userIdToCompare));
+            var elementToRemove = await _db.TodoList.Where(todo => todo.Description.Equals(todoDescription) && todo.UserId.Equals(userIdToCompare)).FirstOrDefaultAsync();
 
             if (elementToRemove is not null)
             {
-                return _todoList.Remove(elementToRemove);
+                _db.TodoList.Remove(elementToRemove);
+                await _db.SaveChangesAsync();
+                return true;
             }
 
             return false;
@@ -53,11 +55,13 @@ namespace TodoListAPI.Infra
 
         public async Task<bool> RemoveUserTodoByTodoIdAsync(string userIdToCompare, string todoId)
         {
-            var elementToRemove = _todoList.Find(todo => todo.Id.Equals(todoId) && todo.UserId.Equals(userIdToCompare));
+            var elementToRemove = await _db.TodoList.Where(todo => todo.Id.Equals(todoId) && todo.UserId.Equals(userIdToCompare)).FirstOrDefaultAsync();
 
             if (elementToRemove is not null)
             {
-                return _todoList.Remove(elementToRemove);
+                _db.TodoList.Remove(elementToRemove);
+                await _db.SaveChangesAsync();
+                return true;
             }
 
             return false;
@@ -65,16 +69,11 @@ namespace TodoListAPI.Infra
 
         public async Task<bool> UpdateUserTodoAsync(TodoEntity todoData)
         {
-            var indexToUpdate = _todoList.FindIndex(todo => todo.Id.Equals(todoData.Id));
+            var todoToUpdate = TodoMapper.ToData(todoData);
 
-            if (indexToUpdate >= 0)
-            {
-                _todoList[indexToUpdate].Description = todoData.Description;
-                return true;
-            }
-
-
-            return false;
+            _db.TodoList.Update(todoToUpdate);
+            await _db.SaveChangesAsync();
+            return true;
         }
     }
 }
