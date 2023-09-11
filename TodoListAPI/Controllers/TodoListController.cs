@@ -20,30 +20,30 @@ public class TodoListController : ControllerBase
 
     [HttpPost]
     [Route("add")]
-    public TodoEntity PostTodo([FromBody] CreateTodoCommand command)
+    public async Task<TodoEntity> PostTodo([FromBody] CreateTodoCommand command)
     {
-        return _todoListService.AddUserTodoAsync((TodoEntity)command);
+        return await _todoListService.AddUserTodoAsync((TodoEntity)command);
     }
 
     [HttpGet]
     [Route("{userId}")]
-    public IEnumerable<TodoEntity> GetTodoList(string userId)
+    public async Task<IEnumerable<TodoEntity>> GetTodoList(string userId)
     {
-        return _todoListService.GetAllUserTodoAsync(userId);
+        return await _todoListService.GetAllUserTodoAsync(userId);
     }
 
     [HttpPatch]
     [Route("update")]
-    public bool UpdateTodo([FromBody] UpdateTodoCommand command)
+    public async Task<bool> UpdateTodo([FromBody] UpdateTodoCommand command)
     {
-        return _todoListService.UpdateUserTodoAsync((TodoEntity)command);
+        return await _todoListService.UpdateUserTodoAsync((TodoEntity)command);
     }
 
     [HttpPatch]
     [Route("{userId}/{todoId}/delete")]
-    public bool DeleteTodo(string userId, string todoId)
+    public async Task<bool> DeleteTodo(string userId, string todoId)
     {
-        return _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
+        return await _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
     }
 }
 

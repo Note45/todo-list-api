@@ -5,9 +5,9 @@ namespace TodoListAPI.Domain.Services
 {
     public interface ITodoListService
     {
-        List<TodoEntity> GetAllUserTodoAsync(string UserIdToCompare);
-        TodoEntity AddUserTodoAsync(TodoEntity todoData);
-        bool RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoId);
-        bool UpdateUserTodoAsync(TodoEntity todoData);
+        Task<List<TodoEntity>> GetAllUserTodoAsync(string UserIdToCompare);
+        Task<TodoEntity> AddUserTodoAsync(TodoEntity todoData);
+        Task<bool> RemoveUserTodoByDescriptionAsync(string userIdToCompare, string todoId);
+        Task<bool> UpdateUserTodoAsync(TodoEntity todoData);
     }
 }
