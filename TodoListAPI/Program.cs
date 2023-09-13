@@ -9,8 +9,10 @@ using TodoListAPI.Infra.Database.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Add database
-builder.Services.AddSingleton<DbContext, DataContext>();
+builder.Services.AddSingleton<DataContext, DataContext>();
 
 // Add services to the container.
 builder.Services.AddSingleton<ITodoListRepository, TodoListRepository>();

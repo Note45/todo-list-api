@@ -20,7 +20,11 @@ namespace TodoListAPI.Infra
 
         public async Task<TodoEntity> AddUserTodoAsync(TodoEntity todoData)
         {
-            await _db.AddAsync(todoData);
+            var todoFormated = TodoMapper.ToData(todoData);
+
+            await _db.AddAsync(todoFormated);
+
+            await _db.SaveChangesAsync();
 
             return todoData;
         }
