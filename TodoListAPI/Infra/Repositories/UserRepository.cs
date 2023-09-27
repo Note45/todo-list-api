@@ -1,47 +1,69 @@
 ﻿using System;
 using TodoListAPI.Domain.Entities;
+using TodoListAPI.Domain.Mappers;
 using TodoListAPI.Domain.Repositories;
+using TodoListAPI.Infra.Database.Config;
+using TodoListAPI.Infra.Database.Models;
 
 namespace TodoListAPI.Infra.Repositories
 {
-	public class UserRepository: IUserRepository
+    public class UserRepository : IUserRepository
     {
-        private List<UserEntity> _usersList = new List<UserEntity>();
+        private readonly DataContext _db;
 
-        public UserEntity AddUserAsync(UserEntity userData)
+        public UserRepository(DataContext dbContext)
         {
-            _usersList.Add(userData);
+            _db = dbContext ?? throw new Exception();
+        }
+
+        public async Task<UserEntity> AddUserAsync(UserEntity userData)
+        {
+            var userFormated = UserMapper.ToData(userData);
+
+            await _db.AddAsync(userFormated);
+
+            await _db.SaveChangesAsync();
 
             return userData;
         }
 
-        public UserEntity? GetUserById(string userId)
+        public async Task<UserEntity?> GetUserById(string userId)
         {
-            UserEntity? user = _usersList.Find(user => user.Id.Equals(userId));
+            UserData? user = await _db.Users.FindAsync(userId);
 
-            return user;
+            if (user is not null)
+            {
+                UserEntity userFormated = UserMapper.ToEntity(user);
+                return userFormated;
+            }
+
+            return null;
         }
 
-        public bool RemoveUserByIdAsync(string userId)
+        public async Task<bool> RemoveUserByIdAsync(string userId)
         {
-            var userToRemove = _usersList.Find(user => user.Id.Equals(userId));
+            var userToRemove = await _db.Users.FindAsync(userId);
 
             if (userToRemove is not null)
             {
-                _usersList.Remove(userToRemove);
+                _db.Users.Remove(userToRemove);
+                await _db.SaveChangesAsync();
                 return true;
             }
 
             return false;
         }
 
-        public bool UpdateUserByIdAsync(UserEntity userData)
+        public async Task<bool> UpdateUserByIdAsync(UserEntity userData)
         {
-            int userIndex = _usersList.FindIndex(user => user.Id.Equals(userData.Id));
+            var userSaved = await _db.Users.FindAsync(userData.Id);
 
-            if (userIndex >= 0)
+            if (userSaved is not null)
             {
-                _usersList[userIndex] = userData;
+                UserData userSavedData = UserMapper.ToData(userData);
+
+                _db.Users.Update(userSavedData);
+                await _db.SaveChangesAsync();
                 return true;
             }
 
