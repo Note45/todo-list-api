@@ -6,7 +6,7 @@ namespace TodoListAPI.Domain.Mappers
 {
     public static class UserMapper
     {
-        public static UserData toData(UserEntity userEntity)
+        public static UserData ToData(UserEntity userEntity)
         {
             UserData userFormated = new()
             {
@@ -20,6 +20,19 @@ namespace TodoListAPI.Domain.Mappers
 
             return userFormated;
         }
-    }
-}
 
+        public static UserEntity ToEntity(UserData userSaved)
+        {
+            UserEntity userFormated = new()
+            {
+                Id = userSaved.Id,
+                Name = userSaved.Name,
+                Email = userSaved.Email,
+                Password = userSaved.Password,
+                CreatedAt = userSaved.CreatedAt.ToString(),
+                UpdatedAt = userSaved.UpdatedAt.ToString(),
+            }
+
+            return userFormated;
+        }
+    }
