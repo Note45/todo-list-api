@@ -31,8 +31,9 @@ namespace TodoListAPI.Domain.Mappers
                 Password = userSaved.Password,
                 CreatedAt = userSaved.CreatedAt.ToString(),
                 UpdatedAt = userSaved.UpdatedAt.ToString(),
-            }
+            };
 
             return userFormated;
         }
     }
+}
