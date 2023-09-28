@@ -13,23 +13,23 @@ namespace TodoListAPI.Application.Services
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        public UserEntity AddUserAsync(UserEntity userData)
+        public Task<UserEntity> AddUserAsync(UserEntity userData)
         {
             return _userRepository.AddUserAsync(userData);
         }
 
 
-        public UserEntity? GetUserById(string userId)
+        public Task<UserEntity?> GetUserById(string userId)
         {
             return _userRepository.GetUserById(userId);
         }
 
-        public bool RemoveUserByIdAsync(string userId)
+        public Task<bool> RemoveUserByIdAsync(string userId)
         {
             return _userRepository.RemoveUserByIdAsync(userId);
         }
 
-        public bool UpdateUserByIdAsync(UserEntity userData)
+        public Task<bool> UpdateUserByIdAsync(UserEntity userData)
         {
             return _userRepository.UpdateUserByIdAsync(userData);
         }
