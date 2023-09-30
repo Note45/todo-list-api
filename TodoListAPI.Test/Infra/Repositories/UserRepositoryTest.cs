@@ -1,15 +1,18 @@
 ﻿using System;
+using Moq;
 using TodoListAPI.Domain.Entities;
+using TodoListAPI.Infra.Database.Config;
 using TodoListAPI.Infra.Repositories;
 
 namespace TodoListAPI.Test.Infra.Repositories
 {
-	public class UserRepositoryTest
-	{
+    public class UserRepositoryTest
+    {
         [Fact(DisplayName = "Should be able to add an user to the users list")]
-        public void ShouldReturnTheUserDataWhenAddUserAsync()
+        public async void ShouldReturnTheUserDataWhenAddUserAsync()
         {
-            UserRepository userRepository = new UserRepository();
+            var userContextMock = new Mock<DataContext>();
+            UserRepository userRepository = new UserRepository(userContextMock);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -20,15 +23,16 @@ namespace TodoListAPI.Test.Infra.Repositories
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            var userCreated = userRepository.AddUserAsync(userData);
+            var userCreated = await userRepository.AddUserAsync(userData);
 
             Assert.Equal(userData, userCreated);
         }
 
         [Fact(DisplayName = "Should be able to get an user from the users list")]
-        public void ShouldReturnTheUserDataWhenGetUserAsync()
+        public async void ShouldReturnTheUserDataWhenGetUserAsync()
         {
-            UserRepository userRepository = new UserRepository();
+            var userContextMock = new Mock<DataContext>();
+            UserRepository userRepository = new UserRepository(userContextMock);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -39,16 +43,17 @@ namespace TodoListAPI.Test.Infra.Repositories
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            userRepository.AddUserAsync(userData);
-            var userSaved = userRepository.GetUserById(userData.Id);
+            await userRepository.AddUserAsync(userData);
+            var userSaved = await userRepository.GetUserById(userData.Id);
 
             Assert.Equal(userData, userSaved);
         }
 
         [Fact(DisplayName = "Should be able to remove an user from the users list")]
-        public void ShouldRemoveTheUserDataWhenRemoveUserByIdAsync()
+        public async void ShouldRemoveTheUserDataWhenRemoveUserByIdAsync()
         {
-            UserRepository userRepository = new UserRepository();
+            var userContextMock = new Mock<DataContext>();
+            UserRepository userRepository = new UserRepository(userContextMock);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -68,13 +73,13 @@ namespace TodoListAPI.Test.Infra.Repositories
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            userRepository.AddUserAsync(userData);
-            userRepository.AddUserAsync(userData1);
+            await userRepository.AddUserAsync(userData);
+            await userRepository.AddUserAsync(userData1);
 
-            var isDeleted = userRepository.RemoveUserByIdAsync(userData.Id);
+            var isDeleted = await userRepository.RemoveUserByIdAsync(userData.Id);
 
-            var userSaved = userRepository.GetUserById(userData.Id);
-            var userSaved1 = userRepository.GetUserById(userData1.Id);
+            var userSaved = await userRepository.GetUserById(userData.Id);
+            var userSaved1 = await userRepository.GetUserById(userData1.Id);
 
             Assert.True(isDeleted);
             Assert.Null(userSaved);
@@ -82,9 +87,10 @@ namespace TodoListAPI.Test.Infra.Repositories
         }
 
         [Fact(DisplayName = "Should be able to update an user from the users list")]
-        public void ShouldUpdateTheUserDataWhenUpdateUserByIdAsync()
+        public async void ShouldUpdateTheUserDataWhenUpdateUserByIdAsync()
         {
-            UserRepository userRepository = new UserRepository();
+            var userContextMock = new Mock<DataContext>();
+            UserRepository userRepository = new UserRepository(userContextMock);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -104,11 +110,11 @@ namespace TodoListAPI.Test.Infra.Repositories
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            userRepository.AddUserAsync(userData);
+            await userRepository.AddUserAsync(userData);
 
-            var isUpdated= userRepository.UpdateUserByIdAsync(userDataUpdated);
+            var isUpdated = await userRepository.UpdateUserByIdAsync(userDataUpdated);
 
-            var userSaved = userRepository.GetUserById(userData.Id);
+            var userSaved = await userRepository.GetUserById(userData.Id);
 
             Assert.True(isUpdated);
             Assert.Equal(userDataUpdated, userSaved);
