@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using Moq;
 using TodoListAPI.Application.Services;
 using TodoListAPI.Domain.Entities;
@@ -12,7 +14,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheTodoDataWhenAddUserTodoAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new(dbContextMock);
+            TodoListRepository todoListRepository = new(dbContextMock.Object);
             TodoListService todoListService = new(todoListRepository);
             TodoEntity todoToAdd = new()
             {
@@ -31,7 +33,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheTodoDataWhenRemoveUserTodoByIdAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new(dbContextMock);
+            TodoListRepository todoListRepository = new(dbContextMock.Object);
             TodoListService todoListService = new(todoListRepository);
             TodoEntity todoToAdd = new()
             {
@@ -64,7 +66,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldListAllTodoDataWhenGetAllUserTodoAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new(dbContextMock);
+            TodoListRepository todoListRepository = new(dbContextMock.Object);
             TodoListService todoListService = new(todoListRepository);
             TodoEntity todoToAdd = new()
             {
@@ -94,7 +96,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldTodoDataWhenUpdateUserTodoAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new(dbContextMock);
+            TodoListRepository todoListRepository = new(dbContextMock.Object);
             TodoListService todoListService = new(todoListRepository);
             TodoEntity todoToAdd = new()
             {

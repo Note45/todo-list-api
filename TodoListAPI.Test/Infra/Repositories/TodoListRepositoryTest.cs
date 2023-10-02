@@ -12,7 +12,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheTodoDataWhenAddUserTodoAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock);
+            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",
@@ -30,7 +30,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheTodoDataWhenRemoveUserTodoByDescriptionAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock);
+            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",
@@ -60,7 +60,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheTodoDataWhenRemoveUserTodoByTodoIdAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock);
+            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",
@@ -90,7 +90,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldListAllTodoDataWhenGetAllUserTodoAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock);
+            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",
@@ -118,7 +118,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldTodoDataWhenUpdateUserTodoAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock);
+            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",

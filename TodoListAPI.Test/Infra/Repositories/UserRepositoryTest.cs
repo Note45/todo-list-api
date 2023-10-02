@@ -12,7 +12,7 @@ namespace TodoListAPI.Test.Infra.Repositories
         public async void ShouldReturnTheUserDataWhenAddUserAsync()
         {
             var userContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(userContextMock);
+            UserRepository userRepository = new UserRepository(userContextMock.Object);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -32,7 +32,7 @@ namespace TodoListAPI.Test.Infra.Repositories
         public async void ShouldReturnTheUserDataWhenGetUserAsync()
         {
             var userContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(userContextMock);
+            UserRepository userRepository = new UserRepository(userContextMock.Object);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -53,7 +53,7 @@ namespace TodoListAPI.Test.Infra.Repositories
         public async void ShouldRemoveTheUserDataWhenRemoveUserByIdAsync()
         {
             var userContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(userContextMock);
+            UserRepository userRepository = new UserRepository(userContextMock.Object);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",
@@ -90,7 +90,7 @@ namespace TodoListAPI.Test.Infra.Repositories
         public async void ShouldUpdateTheUserDataWhenUpdateUserByIdAsync()
         {
             var userContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(userContextMock);
+            UserRepository userRepository = new UserRepository(userContextMock.Object);
             UserEntity userData = new UserEntity()
             {
                 Id = "new-id-1",

@@ -13,7 +13,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheUserDataWhenAddUserAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(dbContextMock);
+            UserRepository userRepository = new UserRepository(dbContextMock.Object);
             UserService userService = new(userRepository);
             UserEntity userData = new UserEntity()
             {
@@ -34,7 +34,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldReturnTheUserDataWhenGetUserAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(dbContextMock);
+            UserRepository userRepository = new UserRepository(dbContextMock.Object);
             UserService userService = new(userRepository);
             UserEntity userData = new UserEntity()
             {
@@ -57,7 +57,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldRemoveTheUserDataWhenRemoveUserByIdAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(dbContextMock);
+            UserRepository userRepository = new UserRepository(dbContextMock.Object);
             UserService userService = new(userRepository);
             UserEntity userData = new UserEntity()
             {
@@ -95,7 +95,7 @@ namespace TodoListAPI.Test.Infra.Repository
         public async void ShouldUpdateTheUserDataWhenUpdateUserByIdAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(dbContextMock);
+            UserRepository userRepository = new UserRepository(dbContextMock.Object);
             UserService userService = new(userRepository);
             UserEntity userData = new UserEntity()
             {
