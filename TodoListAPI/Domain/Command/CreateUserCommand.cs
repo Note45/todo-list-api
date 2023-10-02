@@ -25,6 +25,7 @@ namespace TodoListAPI.Domain.Command
             {
                 Id = command.Id,
                 Name = command.Name,
+                Email = command.Email,
                 Password = passwordHasher.Hash(command.Password),
                 CreatedAt = command.CreatedAt,
                 UpdatedAt = command.UpdatedAt,
