@@ -15,6 +15,7 @@ namespace TodoListAPI.Domain.Command
         public string Password { get; set; }
         [JsonIgnore]
         public string CreatedAt { get; set; } = DateTime.UtcNow.ToUniversalTime().ToString("u").Replace(" ", "T");
+        [JsonIgnore]
         public string UpdatedAt { get; set; } = DateTime.UtcNow.ToUniversalTime().ToString("u").Replace(" ", "T");
 
         public static explicit operator UserEntity(CreateUserCommand command)
