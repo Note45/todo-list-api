@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoListAPI.Application.Services;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Services;
@@ -8,7 +7,7 @@ namespace TodoListAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 

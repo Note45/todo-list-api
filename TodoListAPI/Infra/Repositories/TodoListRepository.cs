@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Mappers;
 using TodoListAPI.Domain.Repositories;

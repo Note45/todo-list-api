@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TodoListAPI.Infra.Configs
+﻿namespace TodoListAPI.Infra.Configs
 {
     public sealed class HashingOptions
     {

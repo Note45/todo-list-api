@@ -1,5 +1,4 @@
-﻿using System;
-using TodoListAPI.Domain.Entities;
+﻿using TodoListAPI.Domain.Entities;
 using TodoListAPI.Infra.Database.Models;
 
 namespace TodoListAPI.Domain.Mappers

@@ -1,5 +1,4 @@
-﻿using System;
-using TodoListAPI.Domain.Entities;
+﻿using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Mappers;
 using TodoListAPI.Domain.Repositories;
 using TodoListAPI.Infra.Database.Config;

@@ -1,5 +1,4 @@
-﻿using TodoListAPI.Domain.Command;
-using TodoListAPI.Domain.Entities;
+﻿using TodoListAPI.Domain.Entities;
 
 namespace TodoListAPI.Domain.Services
 {

@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using TodoListAPI.Domain.Entities;
+﻿using TodoListAPI.Domain.Entities;
 
 namespace TodoListAPI.Domain.Command
 {

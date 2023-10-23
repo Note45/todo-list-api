@@ -1,11 +1,10 @@
-﻿using System;
-namespace TodoListAPI.Domain
+﻿namespace TodoListAPI.Domain
 {
-	public interface IPasswordHasher
-	{
+    public interface IPasswordHasher
+    {
         string Hash(string password);
 
-        (bool Verified, bool NeedsUpgrade) Check(string hash, string password);  
-	}
+        (bool Verified, bool NeedsUpgrade) Check(string hash, string password);
+    }
 }
 
