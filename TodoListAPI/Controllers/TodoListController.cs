@@ -39,7 +39,7 @@ public class TodoListController : ControllerBase
         return await _todoListService.UpdateUserTodoAsync((TodoEntity)command);
     }
 
-    [HttpPatch]
+    [HttpDelete]
     [Route("{userId}/{todoId}/delete")]
     public async Task<bool> DeleteTodo(string userId, string todoId)
     {
