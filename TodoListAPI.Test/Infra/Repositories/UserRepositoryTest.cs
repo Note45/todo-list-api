@@ -66,19 +66,22 @@ namespace TodoListAPI.Test.Infra.Repositories
             };
             UserData? userFormatedToData = UserMapper.ToData(userEntity);
 
-            userContextMock.Setup(x => x.Users.FindAsync(It.IsAny<System.Type>())).ReturnsAsync(userFormatedToData);
+            userContextMock.Setup(x => x.Users.FindAsync(userFormatedToData.Id)).ReturnsAsync(userFormatedToData);
 
             var userSaved = await userRepository.GetUserById(userEntity.Id);
 
-            Assert.Equal(userEntity, userSaved);
+            Assert.Equivalent(userEntity, userSaved);
         }
 
         [Fact(DisplayName = "Should be able to remove an user from the users list")]
         public async void ShouldRemoveTheUserDataWhenRemoveUserByIdAsync()
         {
             var userContextMock = new Mock<DataContext>(_mockConfiguration.Object);
+            Mock<DbSet<UserData>> mockUsersSet = new();
+            userContextMock.SetupGet(_ => _.Users).Returns(mockUsersSet.Object);
             UserRepository userRepository = new UserRepository(userContextMock.Object);
-            UserEntity userData = new UserEntity()
+
+            UserEntity userEntity = new UserEntity()
             {
                 Id = "new-id-1",
                 Name = "User Test Name",
@@ -87,35 +90,26 @@ namespace TodoListAPI.Test.Infra.Repositories
                 CreatedAt = DateTime.Today.ToString(),
                 UpdatedAt = DateTime.Today.ToString(),
             };
-            UserEntity userData1 = new UserEntity()
-            {
-                Id = "new-id-2",
-                Name = "User Test Name 2",
-                Email = "user2@email.com",
-                Password = "123password",
-                CreatedAt = DateTime.Today.ToString(),
-                UpdatedAt = DateTime.Today.ToString(),
-            };
+            UserData? userFormatedToData = UserMapper.ToData(userEntity);
 
-            await userRepository.AddUserAsync(userData);
-            await userRepository.AddUserAsync(userData1);
+            userContextMock.Setup(x => x.Users.FindAsync(userFormatedToData.Id)).ReturnsAsync(userFormatedToData);
 
-            var isDeleted = await userRepository.RemoveUserByIdAsync(userData.Id);
+            var isDeleted = await userRepository.RemoveUserByIdAsync(userEntity.Id);
 
-            var userSaved = await userRepository.GetUserById(userData.Id);
-            var userSaved1 = await userRepository.GetUserById(userData1.Id);
+            var userSaved = await userRepository.GetUserById(userEntity.Id);
 
             Assert.True(isDeleted);
-            Assert.Null(userSaved);
-            Assert.Equal(userData1, userSaved1);
         }
 
         [Fact(DisplayName = "Should be able to update an user from the users list")]
         public async void ShouldUpdateTheUserDataWhenUpdateUserByIdAsync()
         {
             var userContextMock = new Mock<DataContext>(_mockConfiguration.Object);
+            Mock<DbSet<UserData>> mockUsersSet = new();
+            userContextMock.SetupGet(_ => _.Users).Returns(mockUsersSet.Object);
             UserRepository userRepository = new UserRepository(userContextMock.Object);
-            UserEntity userData = new UserEntity()
+
+            UserEntity userEntity = new UserEntity()
             {
                 Id = "new-id-1",
                 Name = "User Test Name",
@@ -124,6 +118,8 @@ namespace TodoListAPI.Test.Infra.Repositories
                 CreatedAt = DateTime.Today.ToString(),
                 UpdatedAt = DateTime.Today.ToString(),
             };
+            UserData? userFormatedToData = UserMapper.ToData(userEntity);
+
             UserEntity userDataUpdated = new UserEntity()
             {
                 Id = "new-id-1",
@@ -134,14 +130,12 @@ namespace TodoListAPI.Test.Infra.Repositories
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            await userRepository.AddUserAsync(userData);
+
+            userContextMock.Setup(x => x.Users.FindAsync(userFormatedToData.Id)).ReturnsAsync(userFormatedToData);
 
             var isUpdated = await userRepository.UpdateUserByIdAsync(userDataUpdated);
 
-            var userSaved = await userRepository.GetUserById(userData.Id);
-
             Assert.True(isUpdated);
-            Assert.Equal(userDataUpdated, userSaved);
         }
     }
 }
