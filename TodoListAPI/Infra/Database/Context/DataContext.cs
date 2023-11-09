@@ -24,7 +24,7 @@ namespace TodoListAPI.Infra.Database.Config
             modelBuilder.Entity<TodoData>().ToTable("Todos");
         }
 
-        public DbSet<UserData> Users { get; set; }
-        public DbSet<TodoData> TodoList { get; set; }
+        public virtual DbSet<UserData> Users { get; set; }
+        public virtual DbSet<TodoData> TodoList { get; set; }
     }
 }

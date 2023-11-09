@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -65,7 +66,7 @@ namespace TodoListAPI.Test.Infra.Repositories
             };
             UserData? userFormatedToData = UserMapper.ToData(userEntity);
 
-            userContextMock.Setup(x => x.FindAsync(It.IsAny<System.Type>())).ReturnsAsync(userFormatedToData);
+            userContextMock.Setup(x => x.Users.FindAsync(It.IsAny<System.Type>())).ReturnsAsync(userFormatedToData);
 
             var userSaved = await userRepository.GetUserById(userEntity.Id);
 
