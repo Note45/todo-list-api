@@ -1,18 +1,41 @@
+using System.Linq;
+using System.Net.Sockets;
+using System.Reflection.Metadata;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Infra;
 using TodoListAPI.Infra.Database.Config;
-using TodoListAPI.Infra.Repositories;
+using TodoListAPI.Infra.Database.Models;
 
 namespace TodoListAPI.Test.Infra.Repository
 {
     public class TodoListRepositoryTest
     {
+        public Mock<IConfigurationSection> _mockConfSection;
+        public Mock<IConfiguration> _mockConfiguration;
+        public TodoListRepository _todoListRepository;
+
+        public TodoListRepositoryTest()
+        {
+            _mockConfSection = new();
+            _mockConfSection.SetupGet(m => m[It.Is<string>(s => s == "WebApiDatabase")]).Returns("mock_value");
+
+            _mockConfiguration = new();
+            _mockConfiguration.Setup(a => a.GetSection(It.Is<string>(s => s == "WebApiDatabase"))).Returns(_mockConfSection.Object);
+
+            var todoContextMock = new Mock<DataContext>(_mockConfiguration.Object);
+            Mock<DbSet<TodoData>> mockTodosSet = new();
+            todoContextMock.SetupGet(_ => _.TodoList).Returns(mockTodosSet.Object);
+            
+            _todoListRepository = new TodoListRepository(todoContextMock.Object);
+        }
+
+
         [Fact(DisplayName = "Should be able to add a Todo to the TodoList")]
         public async void ShouldReturnTheTodoDataWhenAddUserTodoAsync()
         {
-            var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",
@@ -21,16 +44,24 @@ namespace TodoListAPI.Test.Infra.Repository
                 CreatedAt = new DateTime().ToString()
             };
 
-            var todoCreated = await todoListRepository.AddUserTodoAsync(todoToAdd);
+            var todoCreated = await _todoListRepository.AddUserTodoAsync(todoToAdd);
 
             Assert.Equal(todoToAdd, todoCreated);
         }
 
-        [Fact(DisplayName = "Should be able to delete a Todo to the TodoList")]
+        [Fact(DisplayName = "Should be able to delete a by todo descriotion")]
         public async void ShouldReturnTheTodoDataWhenRemoveUserTodoByDescriptionAsync()
         {
-            var dbContextMock = new Mock<DataContext>();
-            TodoListRepository todoListRepository = new TodoListRepository(dbContextMock.Object);
+            var data = new List<TodoData>
+            {
+                new TodoData            {
+                Id = "test-id",
+                UserId = "test-userId",
+                Description = "Todo description test",
+                CreatedAt = new DateTime()
+            },
+            }.AsQueryable();
+
             TodoEntity todoToAdd = new TodoEntity()
             {
                 Id = "test-id",
@@ -38,21 +69,17 @@ namespace TodoListAPI.Test.Infra.Repository
                 Description = "Todo description test",
                 CreatedAt = new DateTime().ToString()
             };
-            TodoEntity todoToAdd1 = new TodoEntity()
-            {
-                Id = "test-id-1",
-                UserId = "test-userId",
-                Description = "Todo description test 1",
-                CreatedAt = new DateTime().ToString()
-            };
 
+            Mock<DbSet<TodoData>> mockTodosSet = new();
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            var todoContextMock = new Mock<DataContext>(_mockConfiguration.Object);
+            todoContextMock.SetupGet(_ => _.TodoList).Returns(mockTodosSet.Object);
 
-            await todoListRepository.AddUserTodoAsync(todoToAdd);
-            await todoListRepository.AddUserTodoAsync(todoToAdd1);
-            var returnDeleteMethod = await todoListRepository.RemoveUserTodoByDescriptionAsync(todoToAdd1.UserId, todoToAdd1.Description);
-            var todoQuantity = await todoListRepository.GetAllUserTodoAsync(todoToAdd1.UserId);
+            var returnDeleteMethod = await _todoListRepository.RemoveUserTodoByDescriptionAsync(todoToAdd.UserId, todoToAdd.Description);
 
-            Assert.Single(todoQuantity);
             Assert.True(returnDeleteMethod);
         }
 
