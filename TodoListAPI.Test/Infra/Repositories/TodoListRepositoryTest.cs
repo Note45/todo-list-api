@@ -24,12 +24,6 @@ namespace TodoListAPI.Test.Infra.Repository
 
             _mockConfiguration = new();
             _mockConfiguration.Setup(a => a.GetSection(It.Is<string>(s => s == "WebApiDatabase"))).Returns(_mockConfSection.Object);
-
-            var todoContextMock = new Mock<DataContext>(_mockConfiguration.Object);
-            Mock<DbSet<TodoData>> mockTodosSet = new();
-            todoContextMock.SetupGet(_ => _.TodoList).Returns(mockTodosSet.Object);
-            
-            _todoListRepository = new TodoListRepository(todoContextMock.Object);
         }
 
 
@@ -78,7 +72,9 @@ namespace TodoListAPI.Test.Infra.Repository
             var todoContextMock = new Mock<DataContext>(_mockConfiguration.Object);
             todoContextMock.SetupGet(_ => _.TodoList).Returns(mockTodosSet.Object);
 
-            var returnDeleteMethod = await _todoListRepository.RemoveUserTodoByDescriptionAsync(todoToAdd.UserId, todoToAdd.Description);
+            var todoListRepository = new TodoListRepository(todoContextMock.Object);
+
+            var returnDeleteMethod = await todoListRepository.RemoveUserTodoByDescriptionAsync(todoToAdd.UserId, todoToAdd.Description);
 
             Assert.True(returnDeleteMethod);
         }
