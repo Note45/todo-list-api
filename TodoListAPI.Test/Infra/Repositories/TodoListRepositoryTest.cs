@@ -1,6 +1,3 @@
-using System.Linq;
-using System.Net.Sockets;
-using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MockQueryable.Moq;
@@ -10,7 +7,7 @@ using TodoListAPI.Infra;
 using TodoListAPI.Infra.Database.Config;
 using TodoListAPI.Infra.Database.Models;
 
-namespace TodoListAPI.Test.Infra.Repository
+namespace TodoListAPI.Test.Infra.Repositories
 {
     public class TodoListRepositoryTest
     {
