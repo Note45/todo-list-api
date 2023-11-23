@@ -5,7 +5,7 @@ using TodoListAPI.Infra;
 using TodoListAPI.Infra.Database.Config;
 using TodoListAPI.Infra.Repositories;
 
-namespace TodoListAPI.Test.Infra.Repository
+namespace TodoListAPI.Test.Application.Services
 {
     public class UserServiceTest
     {
