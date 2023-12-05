@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using TodoListAPI.Application.Services;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Infra;
 using TodoListAPI.Infra.Database.Config;
+using TodoListAPI.Infra.Database.Models;
 using TodoListAPI.Infra.Repositories;
 
 namespace TodoListAPI.Test.Application.Services
@@ -13,9 +15,9 @@ namespace TodoListAPI.Test.Application.Services
         public async void ShouldReturnTheUserDataWhenAddUserAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(dbContextMock.Object);
-            UserService userService = new(userRepository);
-            UserEntity userData = new UserEntity()
+            var repositoryMock = new Mock<UserRepository>(dbContextMock.Object);
+            UserService userService = new(repositoryMock.Object);
+            UserEntity user = new UserEntity()
             {
                 Id = "new-id-1",
                 Name = "User Test Name",
@@ -25,9 +27,11 @@ namespace TodoListAPI.Test.Application.Services
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            var userCreated = await userService.AddUserAsync(userData);
+            repositoryMock.Setup(x => x.AddUserAsync(user)).ReturnsAsync(user);
 
-            Assert.Equal(userData, userCreated);
+            var userCreated = await userService.AddUserAsync(user);
+
+            Assert.Equal(user, userCreated);
         }
 
         [Fact(DisplayName = "Should be able to get an user from the users list")]
