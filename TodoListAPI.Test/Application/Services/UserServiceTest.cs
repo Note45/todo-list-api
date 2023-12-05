@@ -38,9 +38,9 @@ namespace TodoListAPI.Test.Application.Services
         public async void ShouldReturnTheUserDataWhenGetUserAsync()
         {
             var dbContextMock = new Mock<DataContext>();
-            UserRepository userRepository = new UserRepository(dbContextMock.Object);
-            UserService userService = new(userRepository);
-            UserEntity userData = new UserEntity()
+            var repositoryMock = new Mock<UserRepository>(dbContextMock.Object);
+            UserService userService = new(repositoryMock.Object);
+            UserEntity user = new UserEntity()
             {
                 Id = "new-id-1",
                 Name = "User Test Name",
@@ -50,11 +50,11 @@ namespace TodoListAPI.Test.Application.Services
                 UpdatedAt = DateTime.Today.ToString(),
             };
 
-            await userRepository.AddUserAsync(userData);
+            repositoryMock.Setup(x => x.GetUserById(user.Id)).ReturnsAsync(user);
 
-            var userSaved = await userService.GetUserById(userData.Id);
+            var userSaved = await userService.GetUserById(user.Id);
 
-            Assert.Equal(userData, userSaved);
+            Assert.Equal(user, userSaved);
         }
 
         [Fact(DisplayName = "Should be able to remove an user from the users list")]
