@@ -72,7 +72,7 @@ namespace TodoListAPI.Test.Application.Services
 
             var todoQuantity = await todoListService.GetAllUserTodoAsync(todoList[0].UserId);
 
-            Assert.Equal(1, todoQuantity.Count);
+            Assert.Single(todoQuantity);
         }
 
         [Fact(DisplayName = "Should be able to update a Todo")]
