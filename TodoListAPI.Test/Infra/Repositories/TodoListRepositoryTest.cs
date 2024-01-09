@@ -13,7 +13,6 @@ namespace TodoListAPI.Test.Infra.Repositories
     {
         public Mock<IConfigurationSection> _mockConfSection;
         public Mock<IConfiguration> _mockConfiguration;
-        public TodoListRepository _todoListRepository;
 
         public TodoListRepositoryTest()
         {
@@ -28,7 +27,20 @@ namespace TodoListAPI.Test.Infra.Repositories
         [Fact(DisplayName = "Should be able to add a Todo to the TodoList")]
         public async void ShouldReturnTheTodoDataWhenAddUserTodoAsync()
         {
-            TodoEntity todoToAdd = new TodoEntity()
+            var data = new List<TodoData>
+            { }.AsQueryable().BuildMock();
+
+            Mock<DbSet<TodoData>> mockTodosSet = new();
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            var todoContextMock = new Mock<DataContext>(_mockConfiguration.Object);
+            todoContextMock.SetupGet(_ => _.TodoList).Returns(mockTodosSet.Object);
+
+            var todoListRepository = new TodoListRepository(todoContextMock.Object);
+
+            TodoEntity todoToAdd = new()
             {
                 Id = "test-id",
                 UserId = "test-userId",
@@ -36,7 +48,7 @@ namespace TodoListAPI.Test.Infra.Repositories
                 CreatedAt = new DateTime().ToString()
             };
 
-            var todoCreated = await _todoListRepository.AddUserTodoAsync(todoToAdd);
+            var todoCreated = await todoListRepository.AddUserTodoAsync(todoToAdd);
 
             Assert.Equal(todoToAdd, todoCreated);
         }
@@ -61,7 +73,7 @@ namespace TodoListAPI.Test.Infra.Repositories
                 Description = "Todo description test",
                 CreatedAt = new DateTime().ToString()
             };
- 
+
             Mock<DbSet<TodoData>> mockTodosSet = new();
             mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.Provider).Returns(data.Provider);
             mockTodosSet.As<IQueryable<TodoData>>().Setup(m => m.Expression).Returns(data.Expression);
