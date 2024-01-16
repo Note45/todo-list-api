@@ -22,5 +22,26 @@ namespace TodoListAPI.Controllers
         {
             return await _userService.AddUserAsync((UserEntity)command);
         }
+
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<UserEntity?> GetUser([FromRoute(Name = "userId")] string userId)
+        {
+            return await _userService.GetUserById(userId);
+        }
+
+        [HttpDelete]
+        [Route("{userId}/delete")]
+        public async Task<bool> DeleteUser([FromRoute(Name = "userId")] string userId)
+        {
+            return await _userService.RemoveUserByIdAsync(userId);
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<UserEntity> UpdateUser([FromBody] UpdateUserCommand command)
+        {
+            return await _userService.AddUserAsync((UserEntity)command);
+        }
     }
 }
