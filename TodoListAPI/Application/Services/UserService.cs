@@ -24,6 +24,11 @@ namespace TodoListAPI.Application.Services
             return _userRepository.GetUserById(userId);
         }
 
+        public Task<UserEntity?> GetUserByEmail(string userEmail)
+        {
+            return _userRepository.GetUserByEmail(userEmail);
+        }
+
         public Task<bool> RemoveUserByIdAsync(string userId)
         {
             return _userRepository.RemoveUserByIdAsync(userId);
