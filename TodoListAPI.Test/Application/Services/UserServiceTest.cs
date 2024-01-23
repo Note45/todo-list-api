@@ -57,6 +57,28 @@ namespace TodoListAPI.Test.Application.Services
             Assert.Equal(user, userSaved);
         }
 
+        [Fact(DisplayName = "Should be able to get an user by email")]
+        public async void ShouldReturnTheUserDataWhenGetUserByEmailAsync()
+        {
+            var repositoryMock = new Mock<IUserRepository>();
+            UserService userService = new(repositoryMock.Object);
+            UserEntity user = new UserEntity()
+            {
+                Id = "new-id-1",
+                Name = "User Test Name",
+                Email = "user@email.com",
+                Password = "123password",
+                CreatedAt = DateTime.Today.ToString(),
+                UpdatedAt = DateTime.Today.ToString(),
+            };
+
+            repositoryMock.Setup(x => x.GetUserByEmail(user.Email)).ReturnsAsync(user);
+
+            var userSaved = await userService.GetUserByEmail(user.Email);
+
+            Assert.Equal(user, userSaved);
+        }
+
         [Fact(DisplayName = "Should be able to remove an user from the users list")]
         public async void ShouldRemoveTheUserDataWhenRemoveUserByIdAsync()
         {
