@@ -1,4 +1,5 @@
-﻿using TodoListAPI.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Mappers;
 using TodoListAPI.Domain.Repositories;
 using TodoListAPI.Infra.Database.Config;
@@ -29,6 +30,19 @@ namespace TodoListAPI.Infra.Repositories
         public async Task<UserEntity?> GetUserById(string userId)
         {
             UserData? user = await _db.Users.FindAsync(userId);
+
+            if (user is not null)
+            {
+                UserEntity userFormated = UserMapper.ToEntity(user);
+                return userFormated;
+            }
+
+            return null;
+        }
+
+        public async Task<UserEntity?> GetUserByEmail(string userEmail)
+        {
+            UserData? user = await _db.Users.Where(user => user.Email.Equals(userEmail)).FirstOrDefaultAsync();
 
             if (user is not null)
             {
