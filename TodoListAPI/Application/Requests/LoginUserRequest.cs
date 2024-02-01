@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using TodoListAPI.Infra.Database.Models;
+using TodoListAPI.Domain.Command;
 
 namespace TodoListAPI.Application.Requests
 {

@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Services;
+using TodoListAPI.Application.Requests;
+using TodoListAPI.Domain.Helpers;
+using System.IdentityModel.Tokens.Jwt;
+using TodoListAPI.Infra.Auth;
 
 namespace TodoListAPI.Controllers
 {
@@ -10,10 +15,12 @@ namespace TodoListAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -42,6 +49,18 @@ namespace TodoListAPI.Controllers
         public async Task<UserEntity> UpdateUser([FromBody] UpdateUserCommand command)
         {
             return await _userService.AddUserAsync((UserEntity)command);
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest command)
+        {
+            var token = await _authService.AuthUser(command);
+
+            if (token is not null)
+                return Ok(token);
+
+            return Unauthorized();
         }
     }
 }

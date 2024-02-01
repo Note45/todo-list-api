@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace TodoListAPI.Infra.Database.Models
+﻿namespace TodoListAPI.Domain.Command
 {
     public class LoginUserCommand
     {
