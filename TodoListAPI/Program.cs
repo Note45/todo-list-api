@@ -20,6 +20,7 @@ builder.Services.AddSingleton<ITodoListRepository, TodoListRepository>();
 builder.Services.AddSingleton<ITodoListService, TodoListService>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
