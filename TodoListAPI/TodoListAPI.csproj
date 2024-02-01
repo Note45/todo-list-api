@@ -16,29 +16,6 @@
 		<PackageReference Include="Moq.EntityFrameworkCore" Version="7.0.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15" />
 	</ItemGroup>
-	<ItemGroup>
-		<None Remove="Infra\" />
-		<None Remove="Domain\" />
-		<None Remove="Application\" />
-		<None Remove="Infra\Repositories\" />
-		<None Remove="Infra\Database\" />
-		<None Remove="Infra\Database\Models\" />
-		<None Remove="Domain\Interfaces\" />
-		<None Remove="Infra\Configs\" />
-		<None Remove="Domain\Helpers\" />
-		<None Remove="Domain\Mappers\" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Infra\Repositories\" />
-		<Folder Include="Infra\Database\Models\" />
-		<Folder Include="Domain\Interfaces\" />
-		<Folder Include="Infra\Configs\" />
-		<Folder Include="Domain\Mappers\" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Remove="Migrations\20230710120715_InitialCreate.cs" />
-		<Compile Remove="Migrations\20230710120715_InitialCreate.Designer.cs" />
-	</ItemGroup>
 	<ProjectExtensions>
 	  <MonoDevelop>
 	    <Properties>
