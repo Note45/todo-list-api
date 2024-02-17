@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Services;
 using TodoListAPI.Application.Requests;
-using TodoListAPI.Domain.Helpers;
-using System.IdentityModel.Tokens.Jwt;
 using TodoListAPI.Infra.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TodoListAPI.Controllers
 {
@@ -31,6 +30,7 @@ namespace TodoListAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = UserRoles.User)]
         [Route("{userId}")]
         public async Task<UserEntity?> GetUser([FromRoute(Name = "userId")] string userId)
         {
@@ -38,6 +38,7 @@ namespace TodoListAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = UserRoles.User)]
         [Route("{userId}/delete")]
         public async Task<bool> DeleteUser([FromRoute(Name = "userId")] string userId)
         {
@@ -45,6 +46,7 @@ namespace TodoListAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         [Route("update")]
         public async Task<UserEntity> UpdateUser([FromBody] UpdateUserCommand command)
         {

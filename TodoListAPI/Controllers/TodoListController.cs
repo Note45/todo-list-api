@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Services;
+using TodoListAPI.Infra.Auth;
 
 namespace TodoListAPI.Controllers;
 
@@ -19,6 +21,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoles.User)]
     [Route("add")]
     public async Task<TodoEntity> PostTodo([FromBody] CreateTodoCommand command)
     {
@@ -26,6 +29,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = UserRoles.User)]
     [Route("{userId}")]
     public async Task<IEnumerable<TodoEntity>> GetTodoList(string userId)
     {
@@ -33,6 +37,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPatch]
+    [Authorize(Roles = UserRoles.User)]
     [Route("update")]
     public async Task<bool> UpdateTodo([FromBody] UpdateTodoCommand command)
     {
@@ -40,6 +45,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize(Roles = UserRoles.User)]
     [Route("{userId}/{todoId}/delete")]
     public async Task<bool> DeleteTodo(string userId, string todoId)
     {
