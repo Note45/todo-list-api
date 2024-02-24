@@ -16,10 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-// Add database
 builder.Services.AddSingleton<DataContext, DataContext>();
 
-// Add services to the container.
 builder.Services.AddSingleton<ITodoListRepository, TodoListRepository>();
 builder.Services.AddSingleton<ITodoListService, TodoListService>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
@@ -48,7 +46,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.Configure<HashingOptions>(
     builder.Configuration.GetSection("HashingOptions"));
@@ -82,7 +80,6 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
