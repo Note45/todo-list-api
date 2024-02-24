@@ -1,4 +1,4 @@
-﻿namespace TodoListAPI.Domain
+﻿namespace TodoListAPI.Domain.Interfaces
 {
     public interface IPasswordHasher
     {

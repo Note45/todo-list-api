@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
+using TodoListAPI.Domain.Interfaces;
 
 namespace TodoListAPI.Domain.Helpers
 {

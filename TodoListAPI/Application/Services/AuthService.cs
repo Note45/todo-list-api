@@ -6,6 +6,7 @@ using TodoListAPI.Domain.Services;
 using TodoListAPI.Infra.Auth;
 using TodoListAPI.Domain.Helpers;
 using TodoListAPI.Domain.Entities;
+using TodoListAPI.Domain.Interfaces;
 using TodoListAPI.Domain.Command;
 
 namespace TodoListAPI.Application.Services
@@ -14,11 +15,13 @@ namespace TodoListAPI.Application.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordHasher _passwordHelper;
 
-        public AuthService(IConfiguration configuration, IUserRepository userRepository)
+        public AuthService(IConfiguration configuration, IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _passwordHelper = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
         }
 
         public TokenEntity CreateUserToken(List<Claim> authClaims)
@@ -42,10 +45,9 @@ namespace TodoListAPI.Application.Services
 
         public async Task<TokenEntity?> AuthUser(LoginUserCommand command)
         {
-            PasswordHasher passwordHasher = new();
             var user = await _userRepository.GetUserByEmail(command.Email);
 
-            if (user is not null && passwordHasher.Check(user.Password, command.Password).Verified)
+            if (user is not null && _passwordHelper.Check(user.Password, command.Password).Verified)
             {
 
                 var authClaims = new List<Claim>
