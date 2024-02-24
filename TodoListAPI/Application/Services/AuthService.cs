@@ -4,7 +4,6 @@ using System.Security.Claims;
 using TodoListAPI.Domain.Repositories;
 using TodoListAPI.Domain.Services;
 using TodoListAPI.Infra.Auth;
-using TodoListAPI.Domain.Helpers;
 using TodoListAPI.Domain.Entities;
 using TodoListAPI.Domain.Interfaces;
 using TodoListAPI.Domain.Command;
@@ -53,11 +52,9 @@ namespace TodoListAPI.Application.Services
                 var authClaims = new List<Claim>
                 {
                     new (ClaimTypes.Email, user.Email),
-                    new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new(ClaimTypes.Role, UserRoles.User)
                 };
-
-                authClaims.Add(new(ClaimTypes.Role, UserRoles.User));
-
 
                 return CreateUserToken(authClaims);
             }
