@@ -13,7 +13,7 @@ TodoList API is an API developed in .Net with the aim of saving user to-dos in a
 - [X] - Develop the API in .Net 8;
 - [X] - Use Postgres as database;
 - [X] - Create automatized tests;  
-- [ ] - Run the API and database with docker; 
+- [X] - Run the API and database with docker; 
 
 ## Before Run Project Without Docker
 
