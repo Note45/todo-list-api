@@ -27,6 +27,8 @@ TodoList API is an API developed in .Net with the aim of saving user to-dos in a
 ## Before Run Project Without Docker
 
 - Make sure you have .Net 8 installed in your machine;
+- Make sure you have Postgres installed and configured with a database created;
+- Make sure you add your database credentials in the file `TodoListAPI/appsettings.Development.json`;
 
 ## Run Project Without Docker
 
