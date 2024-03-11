@@ -11,10 +11,8 @@ services:
       - database
     environment:
       - ASPNETCORE_ENVIRONMENT=Sandbox
-      - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTP_PORTS=8081
     ports:
-      - 8080:8080
       - 8081:8081
     volumes:
       - ${HOME}/Documents/docker-volumes/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
