@@ -1,4 +1,5 @@
-﻿using TodoListAPI.Extensions.ApplicationService;
+﻿using TodoListAPI.Application.Middleware;
+using TodoListAPI.Extensions.ApplicationService;
 using TodoListAPI.Extensions.Authentication;
 using TodoListAPI.Extensions.Swagger;
 
@@ -20,6 +21,7 @@ builder.Services
 var app = builder.Build();
 
 app
+    .UseMiddleware<ExceptionHandlingMiddleware>()
     .UseSwagger()
     .UseSwaggerUI()
     .UseAuthentication()
