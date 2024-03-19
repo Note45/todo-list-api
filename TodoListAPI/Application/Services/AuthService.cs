@@ -52,6 +52,7 @@ namespace TodoListAPI.Application.Services
                 var authClaims = new List<Claim>
                 {
                     new (ClaimTypes.Email, user.Email),
+                    new (ClaimTypes.NameIdentifier, user.Id),
                     new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new(ClaimTypes.Role, UserRoles.User)
                 };

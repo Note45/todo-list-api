@@ -1,4 +1,5 @@
 ﻿
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
@@ -23,7 +24,7 @@ namespace TodoListAPI.Controllers
         }
 
         [HttpPost]
-        [Route("add")]
+        [Route("")]
         public async Task<UserEntity> PostUser([FromBody] CreateUserCommand command)
         {
             return await _userService.AddUserAsync((UserEntity)command);
@@ -31,23 +32,31 @@ namespace TodoListAPI.Controllers
 
         [HttpGet]
         [Authorize(Roles = UserRoles.User)]
-        [Route("{userId}")]
-        public async Task<UserEntity?> GetUser([FromRoute(Name = "userId")] string userId)
+        [Route("")]
+        public async Task<IActionResult?> GetUser()
         {
-            return await _userService.GetUserById(userId);
+            var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserById(userId);
+            
+            if (user is null)
+                return NotFound();
+            
+            return Ok(user);
         }
 
         [HttpDelete]
         [Authorize(Roles = UserRoles.User)]
-        [Route("{userId}/delete")]
-        public async Task<bool> DeleteUser([FromRoute(Name = "userId")] string userId)
+        [Route("")]
+        public async Task<bool> DeleteUser()
         {
+            var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            
             return await _userService.RemoveUserByIdAsync(userId);
         }
 
         [HttpPut]
         [Authorize(Roles = UserRoles.User)]
-        [Route("update")]
+        [Route("")]
         public async Task<UserEntity> UpdateUser([FromBody] UpdateUserCommand command)
         {
             return await _userService.AddUserAsync((UserEntity)command);
