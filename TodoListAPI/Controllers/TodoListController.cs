@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
@@ -22,7 +23,7 @@ public class TodoListController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = UserRoles.User)]
-    [Route("add")]
+    [Route("")]
     public async Task<TodoEntity> PostTodo([FromBody] CreateTodoCommand command)
     {
         return await _todoListService.AddUserTodoAsync((TodoEntity)command);
@@ -30,15 +31,17 @@ public class TodoListController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = UserRoles.User)]
-    [Route("{userId}")]
-    public async Task<IEnumerable<TodoEntity>> GetTodoList(string userId)
+    [Route("")]
+    public async Task<IEnumerable<TodoEntity>> GetTodoList()
     {
+        var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        
         return await _todoListService.GetAllUserTodoAsync(userId);
     }
 
     [HttpPatch]
     [Authorize(Roles = UserRoles.User)]
-    [Route("update")]
+    [Route("")]
     public async Task<bool> UpdateTodo([FromBody] UpdateTodoCommand command)
     {
         return await _todoListService.UpdateUserTodoAsync((TodoEntity)command);
@@ -46,9 +49,11 @@ public class TodoListController : ControllerBase
 
     [HttpDelete]
     [Authorize(Roles = UserRoles.User)]
-    [Route("{userId}/{todoId}/delete")]
-    public async Task<bool> DeleteTodo(string userId, string todoId)
+    [Route("{todoId}")]
+    public async Task<bool> DeleteTodo(string todoId)
     {
+        var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        
         return await _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
     }
 }
