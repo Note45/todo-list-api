@@ -8,6 +8,8 @@
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.9.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
 		<PackageReference Include="MockQueryable.Moq" Version="7.0.0" />
 		<PackageReference Include="xunit" Version="2.7.0" />
@@ -29,7 +31,6 @@
 		<None Remove="Domain\Helpers\" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Domain\" />
 		<Folder Include="Domain\Helpers\" />
 	</ItemGroup>
 </Project>
