@@ -46,7 +46,8 @@ public static class ApplicationServiceExtensions
     public static IServiceCollection AddValidators(this IServiceCollection services)
     {
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
-
+        services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+        
         return services;
     }
 }
