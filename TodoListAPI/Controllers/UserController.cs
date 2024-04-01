@@ -67,9 +67,18 @@ namespace TodoListAPI.Controllers
         [HttpPut]
         [Authorize(Roles = UserRoles.User)]
         [Route("")]
-        public async Task<UserEntity> UpdateUser([FromBody] UpdateUserCommand command)
+        public async Task<IActionResult?> UpdateUser([FromBody] UpdateUserCommand command, IValidator<UpdateUserCommand> validator)
         {
-            return await _userService.AddUserAsync((UserEntity)command);
+            var validationResult = await validator.ValidateAsync(command);
+            
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var user = await _userService.AddUserAsync((UserEntity)command);
+            
+            return Ok(user);
         }
 
         [HttpPost]
