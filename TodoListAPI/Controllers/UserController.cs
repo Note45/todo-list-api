@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace TodoListAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

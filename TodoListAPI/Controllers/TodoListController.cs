@@ -9,7 +9,7 @@ using TodoListAPI.Infra.Auth;
 namespace TodoListAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/todolists")]
 public class TodoListController : ControllerBase
 {
     private readonly ILogger<TodoListController> _logger;
