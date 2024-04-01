@@ -1,9 +1,12 @@
+using FluentValidation;
 using TodoListAPI.Application.Services;
+using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Repositories;
 using TodoListAPI.Domain.Services;
 using TodoListAPI.Infra;
 using TodoListAPI.Domain.Helpers;
 using TodoListAPI.Domain.Interfaces;
+using TodoListAPI.Domain.Validations;
 using TodoListAPI.Infra.Database.Config;
 using TodoListAPI.Infra.Repositories;
 
@@ -37,6 +40,13 @@ public static class ApplicationServiceExtensions
         services.Configure<HashingOptions>(
             configuration.GetSection("HashingOptions"));
         
+        return services;
+    }
+
+    public static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+
         return services;
     }
 }

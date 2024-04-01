@@ -1,5 +1,6 @@
 ﻿
 using System.Security.Claims;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Entities;
@@ -25,9 +26,18 @@ namespace TodoListAPI.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<UserEntity> PostUser([FromBody] CreateUserCommand command)
+        public async Task<IActionResult?> PostUser([FromBody] CreateUserCommand command, IValidator<CreateUserCommand> validator)
         {
-            return await _userService.AddUserAsync((UserEntity)command);
+            var validationResult = await validator.ValidateAsync(command);
+            
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            
+            var user = await _userService.AddUserAsync((UserEntity)command);
+            
+            return Ok(user);
         }
 
         [HttpGet]

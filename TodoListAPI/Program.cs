@@ -13,6 +13,7 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddApplicationServices(configuration)
     .AddRepositories()
+    .AddValidators()
     .AddProviderServices(configuration)
     .AddAuthenticationJwt(configuration)
     .AddSwagger()
