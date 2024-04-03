@@ -1,4 +1,5 @@
 using FluentValidation;
+using TodoListAPI.Application.Requests;
 using TodoListAPI.Application.Services;
 using TodoListAPI.Domain.Command;
 using TodoListAPI.Domain.Repositories;
@@ -47,6 +48,7 @@ public static class ApplicationServiceExtensions
     {
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+        services.AddScoped<IValidator<LoginUserRequest>, LoginUserRequestValidator>();
         
         return services;
     }
