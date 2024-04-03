@@ -83,8 +83,15 @@ namespace TodoListAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest command)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest command, IValidator<LoginUserRequest> validator)
         {
+            var validationResult = await validator.ValidateAsync(command);
+            
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            
             var token = await _authService.AuthUser(command);
 
             if (token is not null)
