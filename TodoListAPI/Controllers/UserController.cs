@@ -25,7 +25,6 @@ namespace TodoListAPI.Controllers
         }
 
         [HttpPost]
-        [Route("")]
         public async Task<IActionResult?> PostUser([FromBody] CreateUserCommand command, IValidator<CreateUserCommand> validator)
         {
             var validationResult = await validator.ValidateAsync(command);
@@ -42,7 +41,6 @@ namespace TodoListAPI.Controllers
 
         [HttpGet]
         [Authorize(Roles = UserRoles.User)]
-        [Route("")]
         public async Task<IActionResult?> GetUser()
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -56,17 +54,17 @@ namespace TodoListAPI.Controllers
 
         [HttpDelete]
         [Authorize(Roles = UserRoles.User)]
-        [Route("")]
-        public async Task<bool> DeleteUser()
+        public async Task<IActionResult> DeleteUser()
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             
-            return await _userService.RemoveUserByIdAsync(userId);
+            var result = await _userService.RemoveUserByIdAsync(userId);
+            
+            return Ok(result);
         }
 
         [HttpPut]
         [Authorize(Roles = UserRoles.User)]
-        [Route("")]
         public async Task<IActionResult?> UpdateUser([FromBody] UpdateUserCommand command, IValidator<UpdateUserCommand> validator)
         {
             var validationResult = await validator.ValidateAsync(command);
