@@ -50,6 +50,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
         services.AddScoped<IValidator<LoginUserRequest>, LoginUserRequestValidator>();
         services.AddScoped<IValidator<CreateTodoCommand>, CreateTodoCommandValidator>();
+        services.AddScoped<IValidator<UpdateTodoCommand>, UpdateTodoCommandValidator>();
         
         return services;
     }
