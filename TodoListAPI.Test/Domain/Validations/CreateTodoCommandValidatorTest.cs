@@ -28,7 +28,7 @@ public class CreateTodoCommandValidatorTest
     
     
     [Fact(DisplayName = "Should return userId field error")]
-    public void ShouldReturnEmailErrorInValidation()
+    public void ShouldReturnUserIdErrorInValidation()
     {
         var command = new CreateTodoCommand
         {
@@ -43,7 +43,7 @@ public class CreateTodoCommandValidatorTest
     }
     
     [Fact(DisplayName = "Should return description field error")]
-    public void ShouldReturnPasswordErrorInValidation()
+    public void ShouldReturnDescriptionErrorInValidation()
     {
         var command = new CreateTodoCommand
         {
