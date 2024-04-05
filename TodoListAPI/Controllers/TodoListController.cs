@@ -24,7 +24,6 @@ public class TodoListController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = UserRoles.User)]
-    [Route("")]
     public async Task<IActionResult> PostTodo([FromBody] CreateTodoCommand command, IValidator<CreateTodoCommand> validator)
     {
         var validationResult = await validator.ValidateAsync(command);
@@ -41,30 +40,40 @@ public class TodoListController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = UserRoles.User)]
-    [Route("")]
-    public async Task<IEnumerable<TodoEntity>> GetTodoList()
+    public async Task<IActionResult> GetTodoList()
     {
         var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         
-        return await _todoListService.GetAllUserTodoAsync(userId);
+        var todos = await _todoListService.GetAllUserTodoAsync(userId);
+        
+        return Ok(todos);
     }
 
     [HttpPatch]
     [Authorize(Roles = UserRoles.User)]
-    [Route("")]
-    public async Task<bool> UpdateTodo([FromBody] UpdateTodoCommand command)
+    public async Task<IActionResult> UpdateTodo([FromBody] UpdateTodoCommand command, IValidator<UpdateTodoCommand> validator)
     {
-        return await _todoListService.UpdateUserTodoAsync((TodoEntity)command);
+        var validationResult = await validator.ValidateAsync(command);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+        
+        var updateResult = await _todoListService.UpdateUserTodoAsync((TodoEntity)command);
+        
+        return Ok(updateResult);
     }
 
     [HttpDelete]
     [Authorize(Roles = UserRoles.User)]
     [Route("{todoId}")]
-    public async Task<bool> DeleteTodo(string todoId)
+    public async Task<IActionResult> DeleteTodo(string todoId)
     {
         var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         
-        return await _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
+        var result = await _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
+        
+        return Ok(result);
     }
 }
 
