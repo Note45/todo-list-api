@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TodoListAPI.Domain.Command;
@@ -24,9 +25,18 @@ public class TodoListController : ControllerBase
     [HttpPost]
     [Authorize(Roles = UserRoles.User)]
     [Route("")]
-    public async Task<TodoEntity> PostTodo([FromBody] CreateTodoCommand command)
+    public async Task<IActionResult> PostTodo([FromBody] CreateTodoCommand command, IValidator<CreateTodoCommand> validator)
     {
-        return await _todoListService.AddUserTodoAsync((TodoEntity)command);
+        var validationResult = await validator.ValidateAsync(command);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        var user = await _todoListService.AddUserTodoAsync((TodoEntity)command);
+        
+        return Ok(user);
     }
 
     [HttpGet]
