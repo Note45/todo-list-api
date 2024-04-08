@@ -2,6 +2,7 @@
 using TodoListAPI.Extensions.ApplicationService;
 using TodoListAPI.Extensions.Authentication;
 using TodoListAPI.Extensions.Swagger;
+using TodoListAPI.Extensions.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ var app = builder.Build();
 
 app
     .UseMiddleware<ExceptionHandlingMiddleware>()
+    .UseStartupDbMigrations()
     .UseSwagger()
     .UseSwaggerUI()
     .UseAuthentication()
