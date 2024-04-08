@@ -32,10 +32,13 @@ public class TodoListController : ControllerBase
         {
             return BadRequest(validationResult.Errors);
         }
-
-        var user = await _todoListService.AddUserTodoAsync((TodoEntity)command);
         
-        return Ok(user);
+        var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        command.UserId = userId;
+        
+        var todo = await _todoListService.AddUserTodoAsync((TodoEntity)command);
+        
+        return Ok(todo);
     }
 
     [HttpGet]
@@ -58,6 +61,9 @@ public class TodoListController : ControllerBase
         {
             return BadRequest(validationResult.Errors);
         }
+        
+        var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        command.UserId = userId;
         
         var updateResult = await _todoListService.UpdateUserTodoAsync((TodoEntity)command);
         
