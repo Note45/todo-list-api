@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-secrets-net
+  labels:
+    app: postgresdb
+data:
+  POSTGRES_DB: "todoList"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres"
+  HOST: "postgresnetdb.default"
+  PORT: "5432"
+  WebApiDatabase: "Host=postgresnetdb.default; Database=todoList; Username=postgres; Password=postgres" 

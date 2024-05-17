@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todo-api
+  template:
+    metadata:
+      labels:
+        app: todo-api
+    spec:
+      containers:
+        - name: todo-api
+          image: note45/todo-list-api
+          ports:
+            - containerPort: 8081
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: db-secrets-net

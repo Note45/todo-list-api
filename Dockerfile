@@ -21,4 +21,4 @@ RUN dotnet publish "TodoListAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TodoListAPI.dll"]
+ENTRYPOINT ["dotnet", "TodoListAPI.dll", "--environment=Development"]
