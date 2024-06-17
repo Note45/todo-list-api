@@ -32,5 +32,10 @@ namespace TodoListAPI.Application.Services
         {
             return _todoListRepository.UpdateUserTodoAsync(todoData);
         }
+        
+        public Task<bool> RemoveUserTodoByTodoIdAsync(string userIdToCompare, string todoId)
+        {
+            return _todoListRepository.RemoveUserTodoByTodoIdAsync(userIdToCompare, todoId);
+        }
     }
 }

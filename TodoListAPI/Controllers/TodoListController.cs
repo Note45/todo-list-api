@@ -77,7 +77,7 @@ public class TodoListController : ControllerBase
     {
         var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         
-        var result = await _todoListService.RemoveUserTodoByDescriptionAsync(userId, todoId);
+        var result = await _todoListService.RemoveUserTodoByTodoIdAsync(userId, todoId);
         
         return Ok(result);
     }
